@@ -37,10 +37,14 @@ done
 
 # symlink files to their respective directories
 cp -f $script_path/dunst/dunstrc $conf_path/dunst/dunstrc
-cp -f $script_path/i3/* $conf_path/i3/
-cp -f $script_path/polybar/* $conf_path/polybar/
+cp -rf $script_path/i3/* $conf_path/i3/
+cp -rf $script_path/polybar/* $conf_path/polybar/
 cp -f $script_path/rofi/config.rasi $conf_path/rofi/config.rasi
 cp -f $script_path/ncspot/config.toml $conf_path/ncspot/config.toml
+
+for i in $script_path/i3/* $script_path/polybar/*; do
+  if [ -z $(echo $i | grep ".sh") ]; then chmod +x $i; fi
+done
 
 # symlink wal-generated theme
 ln -sf $HOME/.cache/wal/rofi-dark.rasi $conf_path/rofi/rofi-dark.rasi
