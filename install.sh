@@ -19,7 +19,7 @@ for file in ${templates[@]}
 do
   target="$template_target/$file"
   [ -f "$target" ] && cp -f "$target" "$target.backup"
-  cp -f "$template_src/$file" "$target"
+  ln -sf "$template_src/$file" "$target"
 done
 
 # generate pywal themes
@@ -36,11 +36,11 @@ do
 done
 
 # symlink files to their respective directories
-cp -f $script_path/dunst/dunstrc $conf_path/dunst/dunstrc
-cp -rf $script_path/i3/* $conf_path/i3/
-cp -rf $script_path/polybar/* $conf_path/polybar/
-cp -f $script_path/rofi/config.rasi $conf_path/rofi/config.rasi
-cp -f $script_path/ncspot/config.toml $conf_path/ncspot/config.toml
+ln -sf $script_path/dunst/dunstrc $conf_path/dunst/dunstrc
+ln -sf $script_path/i3/* $conf_path/i3/
+ln -sf $script_path/polybar/* $conf_path/polybar/
+ln -sf $script_path/rofi/config.rasi $conf_path/rofi/config.rasi
+ln -sf $script_path/ncspot/config.toml $conf_path/ncspot/config.toml
 
 for i in $script_path/i3/* $script_path/polybar/*; do
   if [ -z $(echo $i | grep ".sh") ]; then chmod +x $i; fi
