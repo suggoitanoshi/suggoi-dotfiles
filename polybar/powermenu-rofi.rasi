@@ -1,0 +1,11 @@
+configuration {
+  modi: "drun";
+  font: "monaco 14";
+  theme: "rofi-dark";
+  width: -15;
+  lines: 5;
+  location: 3;
+  yoffset: 24;
+  case-sensitive: false;
+}
+

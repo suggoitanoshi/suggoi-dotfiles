@@ -1,0 +1,280 @@
+[colors]
+bg = ${xrdb:.background:#202020}
+fg = ${xrdb:.foreground:#fff}
+blu = ${xrdb:.color4:#45b6ea}
+cyn = ${xrdb:.color6:#83e9f1}
+red = ${xrdb:.color1:#ea4162}
+grn = ${xrdb:color2:#77ed90}
+mag = ${xrdb:color5:#ee76a9}
+yel = ${xrdb:color3}
+blk = ${xrdb:color0}
+gry = ${xrdb:color7}
+ldk = ${xrdb:color8}
+
+[settings]
+compositing-background = over
+
+[bar/basic]
+monitor = 
+monitor-fallback =
+monitor-strict = false
+monitor-exact = true
+override-redirect = false
+bottom = false
+fixed-center = true
+
+width = 100%
+height = 24
+
+dpi-x = 100
+dpi-y = 100
+
+offset-x = 0
+offset-y = 0
+
+background = #00000000
+foreground = ${colors.fg}
+module-bg = ${colors.ldk}
+bar-bg = ${root.background}
+
+; {over,under}line-size
+; {over,under}line-color
+line-size = 2
+line-color = #3794bf
+
+padding = 0
+
+font-0 = FiraCodeNerdFont:size=10:antialias=true;2
+font-1 = FiraCodeNerdFont:size=17:antialias=true;2
+font-2 = FontAwesome5FreeSolid:size=10:antialias=true;2
+font-3 = FontAwesome5BrandsRegular:size=12:antialias=true;2
+font-4 = SawarabiMincho:size=13:antialias=true;2
+font-5 = BaekmukGulim:size=12:antialias=true;2
+
+modules-left = ws sep-left
+modules-center = mid-left media-status media-control mid-right
+modules-right = sep-right backlight volume battery wifi clock power
+
+separator = 
+
+tray-position = right
+tray-detached = false
+tray-maxsize = 16
+tray-background = ${root.module-bg}
+tray-padding = 2
+tray-scale = 1.0
+tray-offset-y = 0
+
+enable-ipc = false
+
+cursor-click = pointer
+
+[section/sep]
+content-foreground = ${root.module-bg}
+content-background = ${root.bar-bg}
+
+[module/sep-left]
+type = custom/text
+inherit = section/sep
+content = " "
+content-font = 2
+
+[module/sep-right]
+type = custom/text
+inherit = section/sep
+content = " "
+content-font = 2
+
+[section/active]
+format-background = ${root.module-bg}
+format-charging-background = ${root.module-bg}
+format-discharging-background = ${root.module-bg}
+format-full-background = ${root.module-bg}
+format-connected-background = ${root.module-bg}
+format-disconnected-background = ${root.module-bg}
+format-prefix-background = ${root.module-bg}
+format-suffix-background = ${root.module-bg}
+content-prefix-background = ${root.module-bg}
+content-suffix-background = ${root.module-bg}
+
+[module/ws]
+type=internal/i3
+
+inherit = section/active
+
+format = "<label-state><label-mode>"
+ws-icon-0 = 1;%{T4}龜
+ws-icon-1 = 2;%{T3}
+ws-icon-2 = 3;%{T3}
+ws-icon-3 = 4;4
+ws-icon-4 = 5;%{T3}
+ws-icon-5 = 6;6
+ws-icon-6 = 7;7
+ws-icon-7 = 8;%{T3}
+ws-icon-8 = 9;%{T3}
+ws-icon-9 = 10;%{T4}
+
+label-separator-foreground = #00000000
+label-separator-background = ${colors.bg}
+
+label-mode = %mode%
+label-mode-padding = 1
+label-mode-background = ${colors.ldk}
+label-mode-foreground = ${colors.cyn}
+label-focused = %icon%
+label-focused-padding = 1
+label-focused-background = ${colors.ldk}
+label-focused-foreground = ${colors.blu}
+label-focused-underline = ${colors.blu}
+label-unfocused = %icon%
+label-unfocused-foreground = ${colors.blk}
+label-unfocused-background = ${colors.ldk}
+label-unfocused-padding = 1
+label-visible-foreground = ${colors.cyn}
+label-visible = %icon%
+label-visible-padding = 1
+label-urgent = %icon%
+label-urgent-padding = 1
+label-urgent-underline = ${colors.red}
+label-urgent-foreground = ${colors.red}
+label-urgent-background = ${colors.ldk}
+
+[section/mid]
+background = ${colors.red}
+foreground = ${colors.blk}
+format-foreground = ${self.foreground}
+format-background = ${self.background}
+content-foreground = ${self.foreground}
+content-background = ${self.background}
+
+[section/mid-sep]
+inherit = section/mid
+background = ${section/mid.background}
+content-background = ${root.background}
+content-foreground = ${self.background}
+content-font = 2
+
+[section/media-icons]
+inherit = section/mid
+background = ${section/mid.background}
+foreground = ${section/mid.foreground}
+font = 3
+content-font = ${self.font}
+label-font = ${self.font}
+content-background = ${self.background}
+format-background = ${self.background}
+content-foreground = ${self.foreground}
+format-foreground = ${self.foreground}
+content-padding = 1
+format-padding = 1
+
+[module/media-status]
+type = custom/script
+inherit = section/mid
+exec = $HOME/.config/polybar/media-status.sh
+label = %output%
+format-prefix = " "
+format-prefix-font = 3
+tail = true
+format-padding = 1
+
+[module/media-control]
+type = custom/script
+inherit = section/media-icons
+exec = sh -c 'case $(playerctl status 2>&1) in "Playing") echo -n "" ;; "Paused") echo -n "" ;; *) echo -n "" ;; esac'
+format-prefix = "%{A1:playerctl previous:}%{A} "
+format-suffix = " %{A1:playerctl next:}%{A}"
+format-prefix-font = 3
+format-suffix-font = 3
+interval = 1
+format-padding = 0
+click-left = playerctl play-pause
+
+[module/mid-left]
+type = custom/text
+inherit = section/mid-sep
+content = " "
+
+[module/mid-right]
+type = custom/text
+inherit = section/mid-sep
+content = " "
+
+[module/backlight]
+type = internal/backlight
+inherit = section/active
+card = amdgpu_bl0
+format = "%{T3}%{T-} <label>"
+format-foreground = ${colors.yel}
+format-padding = 1
+label = %percentage%%
+
+[module/volume]
+type=custom/script
+inherit = section/active
+exec=amixer sget Master | awk -F"[][]" '/dB/{ print "%{T3}"(($6=="off")?"%{F#ea4162}":"")"%{T-} "$2; exit }'
+label=%output%
+label-foreground = ${colors.mag}
+label-padding = 1
+click-left = amixer -D pulse sset Master toggle
+interval=1
+
+[module/battery]
+type = internal/battery
+inherit = section/active
+full-at = 100
+battery = BAT0
+adapter = AC
+poll-interval = 5
+format-charging-padding = 1
+format-discharging-padding = 1
+format-full-padding = 1
+format-charging = <ramp-capacity> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <ramp-capacity> <label-full>
+ramp-capacity-0 = %{T3}
+ramp-capacity-1 = %{T3}
+ramp-capacity-2 = %{T3}
+ramp-capacity-3 = %{T3}
+ramp-capacity-4 = %{T3}
+label-charging = C%percentage%% - %time%L
+label-discharging = D%percentage%% - %time%R
+label-full = F%percentage%%
+format-discharging-foreground = ${colors.cyn}
+format-charging-foreground = ${colors.cyn}
+format-full-foreground = ${colors.cyn}
+
+[module/wifi]
+type=internal/network
+inherit = section/active
+interface=wlp4s0
+format-connected = <label-connected>
+format-connected-foreground = ${colors.blu}
+format-disconnected = <label-disconnected>
+format-disconnected-foreground = ${colors.red}
+label-connected =  %essid:0:8:...%  %downspeed:9:9:-%
+label-disconnected =  %ifname% - No Network
+
+[module/clock]
+type=internal/date
+inherit = section/active
+interval = 1.0
+date = %d %b '%y%
+time = %H:%M
+format = <label>
+format-foreground = ${colors.grn}
+format-padding = 1
+label = %{T3} %{T-}%date% %{T3} %{T-}%time%
+label-font = 0
+
+[module/power]
+type = custom/text
+inherit = section/active
+content = "%{T3}"
+content-prefix = "%{T2} "
+content-suffix = "%{T2} "
+content-prefix-foreground = ${colors.red}
+content-suffix-foreground = ${colors.red}
+content-foreground = ${colors.blk}
+content-background = ${colors.red}
+click-left = $HOME/themes/polybar/powermenu.sh
